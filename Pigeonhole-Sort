@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void pigeonholeSort(vector<int>& arr) {
+    int min = arr[0], max = arr[0];
+
+    // Find the minimum and maximum values in the array
+    for (int i = 1; i < arr.size(); i++) {
+        if (arr[i] < min)
+            min = arr[i];
+        if (arr[i] > max)
+            max = arr[i];
+    }
+
+    int range = max - min + 1;
+
+    // Create an array of vectors for pigeonholes
+    vector<int> holes[range];
+
+    // Place elements in their respective pigeonholes
+    for (int i = 0; i < arr.size(); i++)
+        holes[arr[i] - min].push_back(arr[i]);
+
+    // Reconstruct the sorted array
+    int index = 0;
+
+    for (int i = 0; i < range; i++) {
+        for (int j = 0; j < holes[i].size(); j++) {
+            arr[index++] = holes[i][j];
+        }
+    }
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of elements: ";
+    cin >> n;
+
+    vector<int> arr(n);
+
+    cout << "Enter the elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    pigeonholeSort(arr);
+
+    cout << "Sorted order is: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+
+    return 0;
+}
